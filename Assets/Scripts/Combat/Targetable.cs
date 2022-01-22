@@ -1,12 +1,15 @@
 using Mirror;
 using UnityEngine;
 
-public class Targetable : NetworkBehaviour
+namespace Combat
 {
-    [SerializeField] private Transform aimAtPoint;
-
-    public Transform GetAimAtPoint()
+    public class Targetable : NetworkBehaviour
     {
-        return aimAtPoint;
+        [SerializeField] private Transform aimAtPoint;
+
+        public Transform GetAimAtPoint()
+        {
+            return aimAtPoint;
+        }
     }
 }
