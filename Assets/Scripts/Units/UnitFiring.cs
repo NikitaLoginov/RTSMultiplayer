@@ -46,10 +46,7 @@ namespace Units
         }
 
         [Server]
-        private bool CanFireAtTarget(Targetable target)
-        {
-            return (target.transform.position - transform.position).sqrMagnitude 
-                   <= fireRange * fireRange;
-        }
+        private bool CanFireAtTarget(Targetable target) 
+            => (target.transform.position - transform.position).sqrMagnitude <= fireRange * fireRange;
     }
 }

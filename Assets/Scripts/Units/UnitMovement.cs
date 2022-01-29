@@ -56,11 +56,9 @@ namespace Units
             }
         }
 
-        private bool CanChaseTarget(Targetable target)
-        {
+        private bool CanChaseTarget(Targetable target) =>
             //checking if we out of chase range
-            return (target.transform.position - transform.position).sqrMagnitude > chaseRange * chaseRange;
-        }
+            (target.transform.position - transform.position).sqrMagnitude > chaseRange * chaseRange;
 
 #endregion
     }
