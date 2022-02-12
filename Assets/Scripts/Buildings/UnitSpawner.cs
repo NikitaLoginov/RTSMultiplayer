@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,14 +13,15 @@ namespace Buildings
         [SerializeField] private Transform unitSpawnPoint;
 
 
+
   #region Server
 
-  public override void OnStartServer() => health.ServerOnDie += ServerHandleDie;
-
-  public override void OnStopServer() => health.ServerOnDie -= ServerHandleDie;
-
-  [Server]
-  private void ServerHandleDie() => NetworkServer.Destroy(gameObject);
+  // public override void OnStartServer() => health.ServerOnDie += ServerHandleDie;
+  //
+  // public override void OnStopServer() => health.ServerOnDie -= ServerHandleDie;
+  //
+  // [Server]
+  // private void ServerHandleDie() => NetworkServer.Destroy(gameObject);
 
   [Command]
         private void CmdSpawnUnit()
