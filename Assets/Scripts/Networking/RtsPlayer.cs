@@ -43,9 +43,9 @@ namespace Networking
 
 #region Client
 
-        public override void OnStartClient()
+        public override void OnStartAuthority()
         {
-            if (!isClientOnly) return;
+            if (NetworkServer.active) return; //if this machine is running as a server
             
             Unit.AuthorityOnUnitSpawned += AuthorityHandleUnitSpawned;
             Unit.AuthorityOnUnitDespawned += AuthorityHandleUnitDespawned;
@@ -53,26 +53,16 @@ namespace Networking
 
         public override void OnStopClient()
         {
-            if (!isClientOnly) return;
+            if (!isClientOnly || !hasAuthority) return;
             
             Unit.AuthorityOnUnitSpawned -= AuthorityHandleUnitSpawned;
             Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitDespawned;
         }
         
-        private void AuthorityHandleUnitSpawned(Unit unit)
-        {
-            if (!hasAuthority) return;
-            
-            playerUnits.Add(unit);
-        }
-        
-        private void AuthorityHandleUnitDespawned(Unit unit)
-        {
-            if (!hasAuthority) return;
-            
-            playerUnits.Remove(unit);
-        }
+        private void AuthorityHandleUnitSpawned(Unit unit) => playerUnits.Add(unit);
 
-#endregion
+        private void AuthorityHandleUnitDespawned(Unit unit) => playerUnits.Remove(unit);
+
+        #endregion
     }
 }

@@ -290,6 +290,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  health: {fileID: -7578561597329063414}
 --- !u!114 &-7578561597329063414
 MonoBehaviour:
   m_ObjectHideFlags: 0

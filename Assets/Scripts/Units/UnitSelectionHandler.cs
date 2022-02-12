@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using Networking;
@@ -20,7 +21,14 @@ namespace Units
 
         public List<Unit> SelectedUnits => selectedUnits;
 
-        private void Start() => mainCamera = Camera.main;
+        private void Start()
+        {
+            mainCamera = Camera.main;
+
+            Unit.AuthorityOnUnitDespawned += AuthorityHandleUnitDespawned;
+        }
+
+        private void OnDestroy() => Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitDespawned;
 
         private void Update()
         {
@@ -121,5 +129,7 @@ namespace Units
             screenPos.x < max.x && 
             screenPos.y > min.y && 
             screenPos.y < max.y;
+
+        private void AuthorityHandleUnitDespawned(Unit unit) => SelectedUnits.Remove(unit);
     }
 }

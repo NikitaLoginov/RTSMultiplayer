@@ -30,7 +30,6 @@ public class Health : NetworkBehaviour
         if (currentHealth == 0)
         {
             ServerOnDie?.Invoke();
-            Debug.Log($"We die!");
         }
 
     }
