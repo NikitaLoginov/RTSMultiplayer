@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Buildings;
 using Combat;
 using Pathfinding;
 using UnityEngine;
@@ -19,6 +21,12 @@ namespace Units
         private void Start()
         {
             mainCamera = Camera.main;
+            GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
+        }
+
+        private void OnDestroy()
+        {
+            GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
         }
 
         private void Update()
@@ -72,6 +80,11 @@ namespace Units
             PathUtilities.GetPointsAroundPoint(hitPosition, AstarPath.active.graphs[0] as IRaycastableGraph, previousPoints, radius, clearingRadius);
 
             return previousPoints;
+        }
+        
+        private void ClientHandleGameOver(string winnerName)
+        {
+            enabled = false;
         }
     }
 }

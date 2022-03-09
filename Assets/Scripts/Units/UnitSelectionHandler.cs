@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Buildings;
 using Mirror;
 using Networking;
 using UnityEngine;
@@ -26,9 +27,14 @@ namespace Units
             mainCamera = Camera.main;
 
             Unit.AuthorityOnUnitDespawned += AuthorityHandleUnitDespawned;
+            GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
         }
 
-        private void OnDestroy() => Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitDespawned;
+        private void OnDestroy()
+        {
+            Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitDespawned;
+            GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
+        }
 
         private void Update()
         {
@@ -131,5 +137,11 @@ namespace Units
             screenPos.y < max.y;
 
         private void AuthorityHandleUnitDespawned(Unit unit) => SelectedUnits.Remove(unit);
+        
+        private void ClientHandleGameOver(string winnerName)
+        {
+            //this stop running Update loop
+            enabled = false;
+        }
     }
 }

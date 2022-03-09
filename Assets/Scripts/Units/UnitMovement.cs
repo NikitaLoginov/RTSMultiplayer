@@ -1,3 +1,4 @@
+using Buildings;
 using Combat;
 using Mirror;
 using Pathfinding;
@@ -19,6 +20,16 @@ namespace Units
 
 
 #region Server
+
+        public override void OnStartServer()
+        {
+            GameOverHandler.ServerOnGameOver += ServerHandlePlayerDie;
+        }
+
+        public override void OnStopServer()
+        {
+            GameOverHandler.ServerOnGameOver -= ServerHandlePlayerDie;
+        }
 
         [Command]
         public void CmdMove(Vector3 position)
@@ -59,8 +70,11 @@ namespace Units
         private bool CanChaseTarget(Targetable target) =>
             //checking if we out of chase range
             (target.transform.position - transform.position).sqrMagnitude > chaseRange * chaseRange;
+        
+        [Server]
+        private void ServerHandlePlayerDie() => aiAgent.canMove = false;
 
-#endregion
+        #endregion
     }
 
 }

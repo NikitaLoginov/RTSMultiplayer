@@ -1,3 +1,4 @@
+using Buildings;
 using Mirror;
 using UnityEngine;
 
@@ -9,6 +10,22 @@ namespace Combat
 
         public Targetable Target => target;
 
+
+        public override void OnStartServer()
+        {
+            GameOverHandler.ServerOnGameOver += ServerHandlePlayerDie;
+        }
+
+        public override void OnStopServer()
+        {
+            GameOverHandler.ServerOnGameOver -= ServerHandlePlayerDie;
+        }
+
+        [Server]
+        private void ServerHandlePlayerDie()
+        {
+            ClearTarget();
+        }
 
         [Command]
         public void CmdSetTarget(GameObject targetGameObject)

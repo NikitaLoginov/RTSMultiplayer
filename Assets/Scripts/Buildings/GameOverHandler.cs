@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 
 namespace Buildings
 {
@@ -9,6 +8,7 @@ namespace Buildings
     {
         private List<UnitBase> bases = new List<UnitBase>();
 
+        public static event Action ServerOnGameOver;
         public static event Action<string> ClientOnGameOver; 
 
 
@@ -40,6 +40,8 @@ namespace Buildings
 
             int playerID = bases[0].connectionToClient.connectionId;
             RpcGameOver($"Player {playerID}");
+            
+            ServerOnGameOver?.Invoke();
         }
         
         #endregion

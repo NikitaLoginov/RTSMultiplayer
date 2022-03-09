@@ -1,4 +1,5 @@
 using System;
+using Buildings;
 using Mirror;
 using UnityEngine;
 
@@ -18,6 +19,12 @@ public class Health : NetworkBehaviour
     public override void OnStartServer()
     {
         currentHealth = maxHealth;
+        UnitBase.ServerOnPlayerDie += ServerHandlePlayerDie;
+    }
+    
+    public override void OnStopServer()
+    {
+        UnitBase.ServerOnPlayerDie -= ServerHandlePlayerDie;
     }
 
     [Server]
@@ -31,7 +38,13 @@ public class Health : NetworkBehaviour
         {
             ServerOnDie?.Invoke();
         }
-
+    }
+    
+    [Server]
+    private void ServerHandlePlayerDie(int connectionId)
+    {
+        if(connectionToClient.connectionId == connectionId)
+            DealDamage(currentHealth);
     }
 
   #endregion
